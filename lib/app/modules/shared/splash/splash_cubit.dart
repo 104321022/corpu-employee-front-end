@@ -33,6 +33,7 @@ class SplashCubit extends Cubit<SplashState> {
     Navigator.pushReplacementNamed(
       context,
       Routes.welcome,
+      // Routes.staffDashboard,
     );
 
     //   var userId = _userStorage.getUserId();

@@ -21,14 +21,24 @@ class RouteGenerator {
         return _PageTransition(
           child: const WelcomeScreen(),
         );
-      // case Routes.signIn:
-      //   return _PageTransition(
-      //     child: const SignInScreen(),
-      //   );
-      // case Routes.signUp:
-      //   return _PageTransition(
-      //     child: const SignUpScreen(),
-      //   );
+      case Routes.signin:
+        args as String?;
+        return _PageTransition(
+          child: SignInScreen(
+            userType: args,
+          ),
+        );
+      case Routes.signup:
+        args as String?;
+        return _PageTransition(
+          child: SignUpScreen(
+            userType: args,
+          ),
+        );
+      case Routes.staffDashboard:
+        return _PageTransition(
+          child: const StaffDashboardScreen(),
+        );
       // case Routes.forgotPassword:
       //   return _PageTransition(
       //     child: const ForgotPasswordScreen(),
