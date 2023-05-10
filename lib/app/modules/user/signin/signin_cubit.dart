@@ -40,7 +40,13 @@ class SignInCubit extends Cubit<SignInState> {
           Routes.staffDashboard,
           (route) => false,
         );
-      } else {}
+      } else if (userType.toString().toLowerCase() == 'employee') {
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          Routes.employeeDashboard,
+          (route) => false,
+        );
+      }
     } else {
       signInForm.markAllAsTouched();
     }
