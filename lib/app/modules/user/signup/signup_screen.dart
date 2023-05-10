@@ -22,7 +22,10 @@ class SignUpScreen extends StatelessWidget {
     final buttonWidth = Get.mediaQuery.size.width;
 
     return BlocProvider(
-      create: (context) => SignUpCubit(context),
+      create: (context) => SignUpCubit(
+        context,
+        userType: userType,
+      ),
       child: Scaffold(
         body: BlocConsumer<SignUpCubit, SignUpState>(
           listenWhen: (prev, curr) => prev.authStatus != curr.authStatus,
