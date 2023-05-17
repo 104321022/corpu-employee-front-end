@@ -7,10 +7,12 @@ import '../../../app.dart';
 class StaffProfilePage extends StatelessWidget {
   const StaffProfilePage({
     super.key,
-    required this.dashboardCubit,
+    required this.cubit,
+    required this.state,
   });
 
-  final StaffDashboardCubit dashboardCubit;
+  final StaffDashboardCubit cubit;
+  final StaffDashboardState state;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,9 @@ class StaffProfilePage extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Text('John'),
+                  child: Text(
+                    state.firstName ?? '',
+                  ),
                 ),
                 const SizedBox(height: 16.0),
                 Text(Res.string.lastName),
@@ -62,7 +66,9 @@ class StaffProfilePage extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Text('Doe'),
+                  child: Text(
+                    state.lastName ?? '',
+                  ),
                 ),
                 const SizedBox(height: 16.0),
                 Text(Res.string.email),
@@ -75,7 +81,9 @@ class StaffProfilePage extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Text('test_user@swin.edu.au'),
+                  child: Text(
+                    state.email ?? '',
+                  ),
                 ),
                 const SizedBox(height: 16.0),
                 Text(Res.string.contactNo),
@@ -88,13 +96,15 @@ class StaffProfilePage extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Text('0123456789'),
+                  child: Text(
+                    state.phone ?? '',
+                  ),
                 ),
               ],
             ),
           ),
           ElevatedButton(
-            onPressed: dashboardCubit.logout,
+            onPressed: cubit.logout,
             style: ElevatedButton.styleFrom(
               minimumSize: const Size(
                 double.maxFinite,

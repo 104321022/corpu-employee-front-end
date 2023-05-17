@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../db/db.dart';
 import '../../../../resources/resources.dart';
 import '../../../app.dart';
 
@@ -14,7 +13,6 @@ class EmployeeDashboardCubit extends Cubit<EmployeeDashboardState> {
     this.context,
   ) : super(const EmployeeDashboardState()) {
     scaffoldKey = GlobalKey<ScaffoldState>();
-    _userStorage = UserStorage();
   }
 
   final BuildContext context;
@@ -22,7 +20,6 @@ class EmployeeDashboardCubit extends Cubit<EmployeeDashboardState> {
   // BookingsCubit? bookingsCubit;
   // ProfileCubit? profileCubit;
   late final GlobalKey<ScaffoldState> scaffoldKey;
-  late UserStorage _userStorage;
   // late DashboardApi _dashboardApi;
 
   void onItemSelected(int index) {

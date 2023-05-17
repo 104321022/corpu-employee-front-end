@@ -19,18 +19,19 @@ class StaffDashboardScreen extends StatelessWidget {
       ],
       child: BlocBuilder<StaffDashboardCubit, StaffDashboardState>(
         builder: (context, state) {
-          var dashboardCubit = context.read<StaffDashboardCubit>();
+          var cubit = context.read<StaffDashboardCubit>();
 
           var pages = [
-            StaffCoursesPage(dashboardCubit: dashboardCubit),
-            StaffAssessmentPage(dashboardCubit: dashboardCubit),
-            StaffProfilePage(dashboardCubit: dashboardCubit),
+            StaffCoursesPage(cubit: cubit, state: state),
+            // StaffEmployeesPage(cubit: cubit, state: state),
+            StaffAssessmentPage(cubit: cubit, state: state),
+            StaffProfilePage(cubit: cubit, state: state),
           ];
 
           return Scaffold(
             body: pages[state.selectedIndex],
             bottomNavigationBar: BottomNavigationBar(
-              onTap: dashboardCubit.onItemSelected,
+              onTap: cubit.onItemSelected,
               currentIndex: state.selectedIndex,
               items: [
                 BottomNavigationBarItem(
@@ -45,6 +46,18 @@ class StaffDashboardScreen extends StatelessWidget {
                   ),
                   tooltip: Res.string.courses,
                 ),
+                // BottomNavigationBarItem(
+                //   label: Res.string.employee,
+                //   icon: Icon(
+                //     Icons.group,
+                //     color: Res.colors.darkGreyColor,
+                //   ),
+                //   activeIcon: Icon(
+                //     Icons.group,
+                //     color: Res.colors.materialColor,
+                //   ),
+                //   tooltip: Res.string.employee,
+                // ),
                 BottomNavigationBarItem(
                   label: Res.string.myAssessments,
                   icon: Icon(

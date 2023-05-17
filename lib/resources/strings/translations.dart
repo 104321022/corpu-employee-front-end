@@ -60,6 +60,8 @@ class AppTranslations extends Translations {
           'myAssessments': 'My Assessments',
           'profile': 'Profile',
           'edit': 'Edit',
+          'something_went_wrong': 'Something went wrong',
+          'no_data_found': 'No data found',
         },
       };
 }

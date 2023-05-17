@@ -39,37 +39,16 @@ class SignUpCubit extends Cubit<SignUpState> {
     });
     if (signUpForm.valid) {
       try {
+        emit(
+          state.copyWith(
+            status: SignUpStatus.signUpLoading,
+          ),
+        );
         var response = await _dio.post(
           '${HTTPConfig.baseURL}signup/',
           data: signUpForm.value,
         );
         if (response.statusCode == 200) {
-          // success
-          await _getStorage.write(
-            'user_id',
-            response.data['user_id'],
-          );
-          await _getStorage.write(
-            'first_name',
-            response.data['first_name'],
-          );
-          await _getStorage.write(
-            'last_name',
-            response.data['last_name'],
-          );
-          await _getStorage.write(
-            'email',
-            response.data['email'],
-          );
-          await _getStorage.write(
-            'contact_no',
-            response.data['contact_no'],
-          );
-          await _getStorage.write(
-            'user_type',
-            response.data['user_type'],
-          );
-
           DialogUtil.showDialogWithOKButton(
             context,
             message: 'Account created successfully. Proceed to Login!',
@@ -93,6 +72,12 @@ class SignUpCubit extends Cubit<SignUpState> {
         Helpers.errorSnackBar(
           context: context,
           title: 'Something went wrong',
+        );
+      } finally {
+        emit(
+          state.copyWith(
+            status: SignUpStatus.loaded,
+          ),
         );
       }
     } else {

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class HTTPConfig {
-  static const String baseURL = 'http://144.138.60.69:8000/';
+  static const String baseURL = 'https://corpuemployee.herokuapp.com/';
 
   HTTPConfig(
     BaseOptions options,

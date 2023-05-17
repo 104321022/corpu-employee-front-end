@@ -39,6 +39,11 @@ class SignInCubit extends Cubit<SignInState> {
   Future<void> signIn() async {
     if (signInForm.valid) {
       try {
+        emit(
+          state.copyWith(
+            status: SignInStatus.signInLoading,
+          ),
+        );
         var response = await _dio.post(
           '${HTTPConfig.baseURL}signin/',
           data: signInForm.value,
@@ -70,6 +75,10 @@ class SignInCubit extends Cubit<SignInState> {
             'user_type',
             response.data['user_type'],
           );
+          await _getStorage.write(
+            'user_details',
+            response.data['details'],
+          );
 
           Helpers.successSnackBar(
             context: context,
@@ -91,11 +100,23 @@ class SignInCubit extends Cubit<SignInState> {
               (route) => false,
             );
           }
+        } else {
+          Helpers.errorSnackBar(
+            context: context,
+            title: 'Something went wrong',
+          );
         }
       } catch (e) {
         Helpers.errorSnackBar(
           context: context,
           title: 'Something went wrong',
+        );
+      } finally {
+        emit(
+          state.copyWith(
+            status: SignInStatus.loaded,
+            authStatus: AuthStatus.none,
+          ),
         );
       }
     } else {

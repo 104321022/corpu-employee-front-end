@@ -110,16 +110,25 @@ class SignInScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 48.0),
                           ElevatedButton(
-                            onPressed: signInCubit.signIn,
+                            onPressed:
+                                state.status == SignInStatus.signInLoading
+                                    ? null
+                                    : signInCubit.signIn,
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(
                                 buttonWidth,
                                 48.0,
                               ),
                             ),
-                            child: Text(
-                              Res.string.signIn,
-                            ),
+                            child: state.status == SignInStatus.signInLoading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      color: Res.colors.materialColor,
+                                    ),
+                                  )
+                                : Text(
+                                    Res.string.signIn,
+                                  ),
                           ),
                           const Spacer(),
                           RichText(

@@ -161,16 +161,26 @@ class SignUpScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 48.0),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: state.status ==
+                                            SignUpStatus.signUpLoading
+                                        ? null
+                                        : signUpCubit.signup,
                                     style: ElevatedButton.styleFrom(
                                       minimumSize: Size(
                                         buttonWidth,
                                         48.0,
                                       ),
                                     ),
-                                    child: Text(
-                                      Res.string.signUp,
-                                    ),
+                                    child: state.status ==
+                                            SignUpStatus.signUpLoading
+                                        ? Center(
+                                            child: CircularProgressIndicator(
+                                              color: Res.colors.materialColor,
+                                            ),
+                                          )
+                                        : Text(
+                                            Res.string.signUp,
+                                          ),
                                   ),
                                 ],
                               ).paddingSymmetric(

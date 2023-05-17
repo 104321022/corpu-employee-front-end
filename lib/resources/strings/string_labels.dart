@@ -28,4 +28,6 @@ class Strings {
   String get myAssessments => 'myAssessments'.tr;
   String get profile => 'profile'.tr;
   String get edit => 'edit'.tr;
+  String get somethingWentWrong => 'something_went_wrong'.tr;
+  String get noDataFound => 'no_data_found'.tr;
 }
