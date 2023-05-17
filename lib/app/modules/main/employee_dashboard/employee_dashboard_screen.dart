@@ -17,18 +17,18 @@ class EmployeeDashboardScreen extends StatelessWidget {
       ],
       child: BlocBuilder<EmployeeDashboardCubit, EmployeeDashboardState>(
         builder: (context, state) {
-          var dashboardCubit = context.read<EmployeeDashboardCubit>();
+          var cubit = context.read<EmployeeDashboardCubit>();
 
           var pages = [
-            EmployeeCoursesPage(dashboardCubit: dashboardCubit),
-            EmployeeAssessmentPage(dashboardCubit: dashboardCubit),
-            EmployeeProfilePage(dashboardCubit: dashboardCubit),
+            EmployeeCoursesPage(cubit: cubit, state: state),
+            EmployeeAssessmentPage(cubit: cubit, state: state),
+            EmployeeProfilePage(cubit: cubit, state: state),
           ];
 
           return Scaffold(
             body: pages[state.selectedIndex],
             bottomNavigationBar: BottomNavigationBar(
-              onTap: dashboardCubit.onItemSelected,
+              onTap: cubit.onItemSelected,
               currentIndex: state.selectedIndex,
               items: [
                 BottomNavigationBarItem(

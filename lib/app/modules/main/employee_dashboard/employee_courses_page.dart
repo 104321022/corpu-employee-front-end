@@ -6,10 +6,12 @@ import '../../../app.dart';
 class EmployeeCoursesPage extends StatelessWidget {
   const EmployeeCoursesPage({
     super.key,
-    required this.dashboardCubit,
+    required this.cubit,
+    required this.state,
   });
 
-  final EmployeeDashboardCubit dashboardCubit;
+  final EmployeeDashboardCubit cubit;
+  final EmployeeDashboardState state;
 
   @override
   Widget build(BuildContext context) {
@@ -18,58 +20,72 @@ class EmployeeCoursesPage extends StatelessWidget {
         title: Text(Res.string.courses),
         centerTitle: true,
       ),
-      body: ListView.separated(
-        itemCount: 15,
-        separatorBuilder: (context, index) {
-          return const SizedBox(height: 8.0);
-        },
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 8.0,
-        ),
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Res.colors.darkGreyColor,
+      body: state.courses == null || state.coursesLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Res.colors.materialColor,
               ),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: ListTile(
-              leading: Container(
-                width: 48.0,
-                height: 48.0,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Res.colors.darkGreyColor,
+            )
+          : state.courses!.isEmpty
+              ? Center(
+                  child: Text(
+                    Res.string.noDataFound,
                   ),
-                  borderRadius: BorderRadius.circular(8.0),
+                )
+              : ListView.separated(
+                  itemCount: state.courses!.length,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 8.0);
+                  },
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  itemBuilder: (context, index) {
+                    var course = state.courses![index];
+
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Res.colors.darkGreyColor,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: ListTile(
+                        leading: Container(
+                          width: 48.0,
+                          height: 48.0,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Res.colors.darkGreyColor,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        title: Text(
+                          course['course_title'],
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        subtitle: Text(
+                          course['course_code'],
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Res.colors.materialColor,
+                          ),
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.more_vert,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ),
-              title: Text(
-                'Course $index',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              subtitle: Text(
-                'course${index}code',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Res.colors.materialColor,
-                ),
-              ),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.more_vert,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
     );
   }
 }

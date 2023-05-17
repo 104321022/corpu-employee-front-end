@@ -6,10 +6,12 @@ import '../../../../resources/resources.dart';
 class EmployeeAssessmentPage extends StatelessWidget {
   const EmployeeAssessmentPage({
     super.key,
-    required this.dashboardCubit,
+    required this.cubit,
+    required this.state,
   });
 
-  final EmployeeDashboardCubit dashboardCubit;
+  final EmployeeDashboardCubit cubit;
+  final EmployeeDashboardState state;
 
   @override
   Widget build(BuildContext context) {
@@ -18,53 +20,69 @@ class EmployeeAssessmentPage extends StatelessWidget {
         title: Text(Res.string.myAssessments),
         centerTitle: true,
       ),
-      body: ListView.separated(
-        itemCount: 5,
-        separatorBuilder: (context, index) {
-          return const SizedBox(height: 8.0);
-        },
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 8.0,
-        ),
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Res.colors.darkGreyColor,
+      body: state.assessments == null || state.assessmentsLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Res.colors.materialColor,
               ),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: ListTile(
-              leading: Container(
-                width: 48.0,
-                height: 48.0,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Res.colors.darkGreyColor,
+            )
+          : state.assessments!.isEmpty
+              ? Center(
+                  child: Text(
+                    Res.string.noDataFound,
                   ),
-                  borderRadius: BorderRadius.circular(8.0),
+                )
+              : ListView.separated(
+                  itemCount: state.assessments!.length,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 8.0);
+                  },
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  itemBuilder: (context, index) {
+                    var assessment = state.assessments![index];
+
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Res.colors.darkGreyColor,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: ListTile(
+                        leading: Container(
+                          width: 48.0,
+                          height: 48.0,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Res.colors.darkGreyColor,
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        title: Text(
+                          'Approver: ${assessment['staff_name']}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        subtitle: Text(
+                          'Applicant: ${assessment['employee_name']}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Res.colors.materialColor,
+                          ),
+                        ),
+                        trailing: Text(
+                          assessment['details']['date'],
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ),
-              title: Text(
-                'Assessment $index',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              subtitle: Text(
-                'assessment${index}id',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Res.colors.materialColor,
-                ),
-              ),
-              trailing: Text('0${index + 4}/05/23'),
-            ),
-          );
-        },
-      ),
     );
   }
 }

@@ -2,7 +2,8 @@ part of 'employee_dashboard_cubit.dart';
 
 class EmployeeDashboardState extends Equatable {
   const EmployeeDashboardState({
-    this.loading = false,
+    this.coursesLoading = false,
+    this.assessmentsLoading = false,
     this.message = '',
     this.apiResponseStatus,
     this.selectedIndex = 0,
@@ -15,7 +16,8 @@ class EmployeeDashboardState extends Equatable {
     this.phone,
   });
 
-  final bool loading;
+  final bool coursesLoading;
+  final bool assessmentsLoading;
   final String message;
   final ApiResponseStatus? apiResponseStatus;
   final int selectedIndex;
@@ -29,7 +31,8 @@ class EmployeeDashboardState extends Equatable {
 
   @override
   List<Object?> get props => [
-        loading,
+        coursesLoading,
+        assessmentsLoading,
         message,
         apiResponseStatus,
         selectedIndex,
@@ -43,7 +46,8 @@ class EmployeeDashboardState extends Equatable {
       ];
 
   EmployeeDashboardState copyWith({
-    bool? loading,
+    bool? coursesLoading,
+    bool? assessmentsLoading,
     String? message,
     ApiResponseStatus? apiResponseStatus,
     int? selectedIndex,
@@ -56,7 +60,8 @@ class EmployeeDashboardState extends Equatable {
     String? phone,
   }) {
     return EmployeeDashboardState(
-      loading: loading ?? this.loading,
+      coursesLoading: coursesLoading ?? this.coursesLoading,
+      assessmentsLoading: assessmentsLoading ?? this.assessmentsLoading,
       message: message ?? this.message,
       apiResponseStatus: apiResponseStatus ?? this.apiResponseStatus,
       selectedIndex: selectedIndex ?? this.selectedIndex,
