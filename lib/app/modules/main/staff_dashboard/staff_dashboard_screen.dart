@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:reactive_forms/reactive_forms.dart' as forms;
 
 import '../../../../resources/resources.dart';
 import '../../../app.dart';

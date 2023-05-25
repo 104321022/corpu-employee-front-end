@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:reactive_forms/reactive_forms.dart' as r;
+import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../resources/resources.dart';
 import '../../../app.dart';
@@ -8,6 +9,7 @@ import '../../../app.dart';
 class ReactiveTextField extends StatelessWidget {
   ReactiveTextField({
     Key? key,
+    this.formControl,
     this.formControlName,
     this.labelWidget,
     this.floatingLabelBehavior = FloatingLabelBehavior.never,
@@ -40,9 +42,11 @@ class ReactiveTextField extends StatelessWidget {
     this.darkMode = false,
     this.decoration,
     this.maxLines,
-  })  : assert(formControlName != null),
+  })  : assert((formControlName != null || formControl != null) &&
+            (formControlName == null || formControl == null)),
         super(key: key);
 
+  final FormControl? formControl;
   final String? formControlName;
   final Widget? labelWidget;
   final FloatingLabelBehavior floatingLabelBehavior;
@@ -106,6 +110,7 @@ class ReactiveTextField extends StatelessWidget {
     return SizedBox(
       height: height,
       child: r.ReactiveTextField(
+        formControl: formControl,
         formControlName: formControlName,
         validationMessages:
             validationMessages ?? {'required': (c) => 'This field is required'},

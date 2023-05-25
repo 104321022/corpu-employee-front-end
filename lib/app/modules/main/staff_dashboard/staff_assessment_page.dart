@@ -77,12 +77,24 @@ class StaffAssessmentPage extends StatelessWidget {
                           ),
                         ),
                         trailing: Text(
-                          assessment['details']['date'],
+                          assessment['details']?['due_date'] ?? '',
                         ),
                       ),
                     );
                   },
                 ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            Routes.createAssessment,
+          );
+        },
+        tooltip: 'Create Assessment',
+        child: const Icon(
+          Icons.add,
+        ),
+      ),
     );
   }
 }

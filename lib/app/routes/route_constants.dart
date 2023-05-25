@@ -5,4 +5,5 @@ abstract class Routes {
   static const signup = '/signup';
   static const staffDashboard = '/staff-dashboard';
   static const employeeDashboard = '/employee-dashboard';
+  static const createAssessment = '/create-assessment';
 }

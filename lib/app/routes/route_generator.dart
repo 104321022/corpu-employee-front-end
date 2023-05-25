@@ -43,6 +43,10 @@ class RouteGenerator {
         return _PageTransition(
           child: const EmployeeDashboardScreen(),
         );
+      case Routes.createAssessment:
+        return _PageTransition(
+          child: const CreateAssessmentScreen(),
+        );
       // case Routes.forgotPassword:
       //   return _PageTransition(
       //     child: const ForgotPasswordScreen(),
