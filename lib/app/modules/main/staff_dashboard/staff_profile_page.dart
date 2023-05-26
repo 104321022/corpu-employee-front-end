@@ -56,6 +56,7 @@ class StaffProfilePage extends StatelessWidget {
                           formControlName: StaffForms.firstNameControl,
                           keyboardType: TextInputType.name,
                           inputAction: TextInputAction.next,
+                          readOnly: !state.editMode,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             enabledBorder: OutlineInputBorder(),

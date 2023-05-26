@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../configs/configs.dart';
 import '../../../../resources/resources.dart';
@@ -20,6 +21,7 @@ class EmployeeDashboardCubit extends Cubit<EmployeeDashboardState> {
     scaffoldKey = GlobalKey<ScaffoldState>();
     _getStorage = GetStorage();
     _dio = Dio();
+    employeeProfileForm = EmployeeForms.employeeProfileForm;
 
     _getUserDetails();
     _getCourses();
@@ -33,6 +35,7 @@ class EmployeeDashboardCubit extends Cubit<EmployeeDashboardState> {
   late final GlobalKey<ScaffoldState> scaffoldKey;
   late GetStorage _getStorage;
   late Dio _dio;
+  late FormGroup employeeProfileForm;
 
   void onItemSelected(int index) {
     emit(
@@ -48,10 +51,21 @@ class EmployeeDashboardCubit extends Cubit<EmployeeDashboardState> {
   }
 
   void _getUserDetails() {
+    var userId = _getStorage.read('user_id');
     var firstName = _getStorage.read('first_name');
     var lastName = _getStorage.read('last_name');
     var email = _getStorage.read('email');
     var phone = _getStorage.read('contact_no');
+
+    employeeProfileForm.patchValue(
+      {
+        EmployeeForms.userIdControl: userId,
+        EmployeeForms.firstNameControl: firstName,
+        EmployeeForms.lastNameControl: lastName,
+        EmployeeForms.emailControl: email,
+        EmployeeForms.contactControl: phone,
+      },
+    );
 
     emit(
       state.copyWith(
@@ -59,6 +73,23 @@ class EmployeeDashboardCubit extends Cubit<EmployeeDashboardState> {
         lastName: lastName,
         email: email,
         phone: phone,
+      ),
+    );
+
+    var details = _getStorage.read('user_details');
+    if (details != null && details.toString().isNotEmpty) {
+      employeeProfileForm.patchValue(
+        {
+          EmployeeForms.detailsControl: details,
+        },
+      );
+    }
+  }
+
+  void editMode() {
+    emit(
+      state.copyWith(
+        editMode: !state.editMode,
       ),
     );
   }
@@ -181,6 +212,88 @@ class EmployeeDashboardCubit extends Cubit<EmployeeDashboardState> {
           assessmentsLoading: false,
         ),
       );
+    }
+  }
+
+  Future<void> updateProfile() async {
+    if (employeeProfileForm.valid) {
+      try {
+        emit(
+          state.copyWith(
+            profileLoading: true,
+          ),
+        );
+
+        var response = await _dio.post(
+          '${HTTPConfig.baseURL}updateProfile',
+          data: employeeProfileForm.value,
+        );
+
+        if (response.statusCode == 200) {
+          Helpers.successSnackBar(
+            context: context,
+            title: 'Profile updated successfully',
+          );
+          await _getStorage.write(
+            'first_name',
+            response.data['first_name'],
+          );
+          await _getStorage.write(
+            'last_name',
+            response.data['last_name'],
+          );
+          await _getStorage.write(
+            'contact_no',
+            response.data['contact_no'],
+          );
+          await _getStorage.write(
+            'user_details',
+            response.data['details'],
+          );
+        } else {
+          Helpers.errorSnackBar(
+            context: context,
+            title: response.data?['message'] ?? Res.string.somethingWentWrong,
+          );
+        }
+      } catch (e) {
+        Helpers.errorSnackBar(
+          context: context,
+          title: Res.string.somethingWentWrong,
+        );
+      } finally {
+        emit(
+          state.copyWith(
+            profileLoading: false,
+          ),
+        );
+      }
+    } else {
+      employeeProfileForm.markAllAsTouched();
+    }
+  }
+
+  void onCourseTapped(course) async {
+    var result = await Navigator.pushNamed(
+      context,
+      Routes.courseDetails,
+      arguments: course,
+    );
+
+    if (result == true) {
+      _getCourses();
+    }
+  }
+
+  void onAssessmentTapped(assessment) async {
+    var result = await Navigator.pushNamed(
+      context,
+      Routes.assessmentDetails,
+      arguments: assessment,
+    );
+
+    if (result == true) {
+      _getAssessments();
     }
   }
 

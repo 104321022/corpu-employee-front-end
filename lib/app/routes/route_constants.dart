@@ -6,4 +6,6 @@ abstract class Routes {
   static const staffDashboard = '/staff-dashboard';
   static const employeeDashboard = '/employee-dashboard';
   static const createAssessment = '/create-assessment';
+  static const courseDetails = '/course-details';
+  static const assessmentDetails = '/assessment-details';
 }

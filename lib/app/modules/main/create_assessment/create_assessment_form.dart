@@ -6,6 +6,7 @@ class CreateAssessmentForm {
   static String courseCode = 'course_code';
   static String details = 'details';
   static String dueDate = 'due_date';
+  static String status = 'status';
   static String question1 = 'question1';
   static String question2 = 'question2';
   static String question3 = 'question3';
@@ -34,6 +35,12 @@ class CreateAssessmentForm {
               validators: [
                 Validators.required,
               ],
+            ),
+            status: FormControl<String>(
+              validators: [
+                Validators.required,
+              ],
+              value: 'New',
             ),
             question1: FormControl<String>(),
             question2: FormControl<String>(),

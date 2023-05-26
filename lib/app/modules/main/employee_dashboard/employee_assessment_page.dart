@@ -63,22 +63,36 @@ class EmployeeAssessmentPage extends StatelessWidget {
                           ),
                         ),
                         title: Text(
-                          'Approver: ${assessment['staff_name']}',
+                          'Created by: ${assessment['staff_name']}',
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        subtitle: Text(
-                          'Applicant: ${assessment['employee_name']}',
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${assessment['course_title']}(${assessment['course_code']})',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Res.colors.materialColor,
+                              ),
+                            ),
+                            Text(
+                              'Due date: ${assessment['details']?['due_date'] ?? ''}',
+                            ),
+                          ],
+                        ),
+                        trailing: Text(
+                          assessment['details']?['status'] ?? '',
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
                             color: Res.colors.materialColor,
                           ),
                         ),
-                        trailing: Text(
-                          assessment['details']['date'],
-                        ),
+                        onTap: () {
+                          cubit.onAssessmentTapped(assessment);
+                        },
                       ),
                     );
                   },

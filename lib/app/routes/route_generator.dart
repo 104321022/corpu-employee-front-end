@@ -47,6 +47,20 @@ class RouteGenerator {
         return _PageTransition(
           child: const CreateAssessmentScreen(),
         );
+      case Routes.courseDetails:
+        args as Map?;
+        return _PageTransition(
+          child: CourseDetailsScreen(
+            courseData: args,
+          ),
+        );
+      case Routes.assessmentDetails:
+        args as Map<String, dynamic>?;
+        return _PageTransition(
+          child: AssessmentDetailsScreen(
+            assessmentData: args,
+          ),
+        );
       // case Routes.forgotPassword:
       //   return _PageTransition(
       //     child: const ForgotPasswordScreen(),

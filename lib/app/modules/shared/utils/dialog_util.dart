@@ -42,7 +42,7 @@ class DialogUtil {
     );
   }
 
-  static Future<void> showDialogWithYesNoButton(
+  static Future<dynamic> showDialogWithYesNoButton(
     BuildContext context, {
     String? title,
     required String message,
@@ -54,7 +54,7 @@ class DialogUtil {
     Function()? noBtnCallback,
     bool barrierDismissible = true,
   }) async {
-    await showCupertinoDialog(
+    return await showCupertinoDialog(
       context: context,
       barrierDismissible: barrierDismissible,
       builder: (context) {
