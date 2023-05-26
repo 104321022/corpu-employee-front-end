@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:reactive_forms/reactive_forms.dart' as forms;
 
 import '../../../../resources/resources.dart';
@@ -59,13 +60,22 @@ class AssessmentDetailsScreen extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Due date: ${assessmentData!['details']['due_date']}',
-                                style: const TextStyle(
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              const SizedBox(height: 16.0),
+                              if (assessmentData!['details']['due_date'] !=
+                                  null)
+                                Text(
+                                  'Due date: ${assessmentData!['details']['due_date']}',
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                  ),
+                                ).marginOnly(bottom: 16.0),
+                              if (assessmentData!['details']['submit_date'] !=
+                                  null)
+                                Text(
+                                  'Submitted on: ${assessmentData!['details']['submit_date']}',
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                  ),
+                                ).marginOnly(bottom: 16.0),
                               Text(
                                 'Questionares',
                                 style: TextStyle(
@@ -156,13 +166,36 @@ class AssessmentDetailsScreen extends StatelessWidget {
                       child: const Text('Submit'),
                     )
                   : state.userType == 'Staff'
-                      ? ElevatedButton(
-                          onPressed:
-                              state.loading ? null : cubit.deleteAssessment,
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(double.maxFinite, 48.0),
-                          ),
-                          child: const Text('Delete Assessment'),
+                      ? Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: state.loading ||
+                                        assessmentData?['details']?['status'] !=
+                                            'Submitted'
+                                    ? null
+                                    : cubit.rejectAssessment,
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: const Size(double.maxFinite, 48.0),
+                                ),
+                                child: const Text('Reject Assessment'),
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: state.loading ||
+                                        assessmentData?['details']?['status'] !=
+                                            'Submitted'
+                                    ? null
+                                    : cubit.approveAssessment,
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: const Size(double.maxFinite, 48.0),
+                                ),
+                                child: const Text('Approve Assessment'),
+                              ),
+                            ),
+                          ],
                         )
                       : const SizedBox.shrink(),
             ),

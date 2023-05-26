@@ -271,6 +271,41 @@ class StaffDashboardCubit extends Cubit<StaffDashboardState> {
     }
   }
 
+  void onCourseTapped(course) async {
+    var result = await Navigator.pushNamed(
+      context,
+      Routes.courseDetails,
+      arguments: course,
+    );
+
+    if (result == true) {
+      _getCourses();
+    }
+  }
+
+  void onAssessmentTapped(assessment) async {
+    var result = await Navigator.pushNamed(
+      context,
+      Routes.assessmentDetails,
+      arguments: assessment,
+    );
+
+    if (result == true) {
+      _getAssessments();
+    }
+  }
+
+  void createAssessment() async {
+    var result = await Navigator.pushNamed(
+      context,
+      Routes.createAssessment,
+    );
+
+    if (result == true) {
+      _getAssessments();
+    }
+  }
+
   void _logoutAlert({
     Function()? logoutCallback,
   }) {

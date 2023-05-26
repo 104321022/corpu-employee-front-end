@@ -103,11 +103,11 @@ class AssessmentDetailsCubit extends Cubit<AssessmentDetailsState> {
     }
   }
 
-  Future<void> deleteAssessment() async {
+  Future<void> rejectAssessment() async {
     var delete = await DialogUtil.showDialogWithYesNoButton(
       context,
       message:
-          'Do you want to delete the assessment for ${assessmentData?['course_title']}(${assessmentData?['course_code']})',
+          'Do you want to reject the assessment of ${assessmentData?['employee_name']} for ${assessmentData?['course_title']}(${assessmentData?['course_code']})',
       noBtnText: Res.string.cancel,
       yesBtnCallback: () {
         Navigator.pop(context, true);
@@ -122,8 +122,83 @@ class AssessmentDetailsCubit extends Cubit<AssessmentDetailsState> {
           ),
         );
 
-        var userId = _getStorage.read('user_id');
-        var userType = _getStorage.read('user_type');
+        var response = await _dio.post(
+          '${HTTPConfig.baseURL}rejectAssessment',
+          data: {
+            'assessment_id': assessmentData?['assessment_id'],
+          },
+        );
+
+        if (response.statusCode == 200) {
+          Helpers.successSnackBar(
+            context: context,
+            title: 'Assessment rejected successfully.',
+          );
+          Navigator.pop(context, true);
+        } else {
+          Helpers.errorSnackBar(
+            context: context,
+            title: response.data?['message'] ?? Res.string.somethingWentWrong,
+          );
+        }
+      } on DioError catch (e) {
+        Helpers.errorSnackBar(
+          context: context,
+          title: e.response?.data?['message'] ?? Res.string.somethingWentWrong,
+        );
+      } catch (e) {
+        Helpers.errorSnackBar(
+          context: context,
+          title: Res.string.somethingWentWrong,
+        );
+      } finally {
+        emit(
+          state.copyWith(
+            loading: false,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> approveAssessment() async {
+    var delete = await DialogUtil.showDialogWithYesNoButton(
+      context,
+      message:
+          'Do you want to approve the assessment of ${assessmentData?['employee_name']} for ${assessmentData?['course_title']}(${assessmentData?['course_code']})',
+      noBtnText: Res.string.cancel,
+      yesBtnCallback: () {
+        Navigator.pop(context, true);
+      },
+    );
+
+    if (delete == true) {
+      try {
+        emit(
+          state.copyWith(
+            loading: true,
+          ),
+        );
+
+        var response = await _dio.post(
+          '${HTTPConfig.baseURL}approveAssessment',
+          data: {
+            'assessment_id': assessmentData?['assessment_id'],
+          },
+        );
+
+        if (response.statusCode == 200) {
+          Helpers.successSnackBar(
+            context: context,
+            title: 'Assessment approved successfully.',
+          );
+          Navigator.pop(context, true);
+        } else {
+          Helpers.errorSnackBar(
+            context: context,
+            title: response.data?['message'] ?? Res.string.somethingWentWrong,
+          );
+        }
       } on DioError catch (e) {
         Helpers.errorSnackBar(
           context: context,

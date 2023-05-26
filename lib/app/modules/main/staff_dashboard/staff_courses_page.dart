@@ -76,12 +76,9 @@ class StaffCoursesPage extends StatelessWidget {
                             color: Res.colors.materialColor,
                           ),
                         ),
-                        // trailing: IconButton(
-                        //   onPressed: () {},
-                        //   icon: const Icon(
-                        //     Icons.more_vert,
-                        //   ),
-                        // ),
+                        onTap: () {
+                          cubit.onCourseTapped(course);
+                        },
                       ),
                     );
                   },

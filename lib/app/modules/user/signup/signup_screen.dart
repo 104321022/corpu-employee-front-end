@@ -68,8 +68,14 @@ class SignUpScreen extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   const SizedBox(height: 24),
-                                  const CircleAvatar(
-                                    radius: 40.0,
+                                  Text(
+                                    'CorpU\nUniversity',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 48.0,
+                                      color: Res.colors.materialColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   const SizedBox(height: 48),
                                   Text(

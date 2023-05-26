@@ -24,21 +24,21 @@ class WelcomeScreen extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const CircleAvatar(
-                      radius: 40.0,
-                    ),
                     const SizedBox(height: 16.0),
                     Text(
                       Res.string.welcome,
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 40,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(height: 16.0),
                     const Text(
-                      'CorpU University - Hiring New Employees',
+                      'CorpU University\nHiring New Employees',
                       textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
                     ),
                     const Spacer(),
                     Text(

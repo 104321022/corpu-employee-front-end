@@ -14,14 +14,17 @@ class SplashScreen extends StatelessWidget {
       create: (context) => SplashCubit(context),
       child: BlocBuilder<SplashCubit, SplashState>(
         builder: (context, state) {
-          return const Scaffold(
+          return Scaffold(
             body: Center(
-              child: Icon(
-                Icons.supervised_user_circle_outlined,
+              child: Text(
+                'CorpU\nUniversity',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 48.0,
+                  color: Res.colors.materialColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              // child: SvgPicture.asset(
-              //   Res.drawable.appLogo,
-              // ),
             ),
           );
         },

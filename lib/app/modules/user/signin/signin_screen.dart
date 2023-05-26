@@ -59,9 +59,15 @@ class SignInScreen extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          const SizedBox(height: 24),
-                          const CircleAvatar(
-                            radius: 40.0,
+                          const Spacer(),
+                          Text(
+                            'CorpU\nUniversity',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 48.0,
+                              color: Res.colors.materialColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           const SizedBox(height: 48),
                           Text(
@@ -130,6 +136,7 @@ class SignInScreen extends StatelessWidget {
                                     Res.string.signIn,
                                   ),
                           ),
+                          const Spacer(),
                           const Spacer(),
                           RichText(
                             text: TextSpan(

@@ -69,27 +69,36 @@ class StaffAssessmentPage extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        subtitle: Text(
-                          'Approver: ${assessment['staff_name']}',
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${assessment['course_title']}(${assessment['course_code']})',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Res.colors.materialColor,
+                              ),
+                            ),
+                            Text(
+                              'Due date: ${assessment['details']?['due_date'] ?? ''}',
+                            ),
+                          ],
+                        ),
+                        trailing: Text(
+                          assessment['details']?['status'] ?? '',
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
                             color: Res.colors.materialColor,
                           ),
                         ),
-                        trailing: Text(
-                          assessment['details']?['due_date'] ?? '',
-                        ),
+                        onTap: () {
+                          cubit.onAssessmentTapped(assessment);
+                        },
                       ),
                     );
                   },
                 ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            Routes.createAssessment,
-          );
-        },
+        onPressed: cubit.createAssessment,
         tooltip: 'Create Assessment',
         child: const Icon(
           Icons.add,

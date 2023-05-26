@@ -90,15 +90,15 @@ class CourseDetailsScreen extends StatelessWidget {
                       ),
                       child: const Text('Apply'),
                     )
-                  : state.userType == 'Staff'
-                      ? ElevatedButton(
-                          onPressed: state.loading ? null : cubit.editDetails,
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(double.maxFinite, 48.0),
-                          ),
-                          child: const Text('Edit Details'),
-                        )
-                      : const SizedBox.shrink(),
+                  // : state.userType == 'Staff'
+                  //     ? ElevatedButton(
+                  //         onPressed: state.loading ? null : cubit.editDetails,
+                  //         style: ElevatedButton.styleFrom(
+                  //           fixedSize: const Size(double.maxFinite, 48.0),
+                  //         ),
+                  //         child: const Text('Edit Details'),
+                  //       )
+                  : const SizedBox.shrink(),
             ),
           );
         },
