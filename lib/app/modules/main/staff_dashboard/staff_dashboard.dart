@@ -4,3 +4,4 @@ export 'staff_courses_page.dart';
 export 'staff_profile_page.dart';
 export 'staff_assessment_page.dart';
 export 'staff_employees_page.dart';
+export 'staff_forms.dart';

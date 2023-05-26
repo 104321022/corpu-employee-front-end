@@ -4,6 +4,7 @@ class StaffDashboardState extends Equatable {
   const StaffDashboardState({
     this.coursesLoading = false,
     this.assessmentsLoading = false,
+    this.profileLoading = false,
     this.message = '',
     this.apiResponseStatus,
     this.selectedIndex = 0,
@@ -14,10 +15,12 @@ class StaffDashboardState extends Equatable {
     this.lastName,
     this.email,
     this.phone,
+    this.editMode = false,
   });
 
   final bool coursesLoading;
   final bool assessmentsLoading;
+  final bool profileLoading;
   final String message;
   final ApiResponseStatus? apiResponseStatus;
   final int selectedIndex;
@@ -28,11 +31,13 @@ class StaffDashboardState extends Equatable {
   final String? lastName;
   final String? email;
   final String? phone;
+  final bool editMode;
 
   @override
   List<Object?> get props => [
         coursesLoading,
         assessmentsLoading,
+        profileLoading,
         message,
         apiResponseStatus,
         selectedIndex,
@@ -43,11 +48,13 @@ class StaffDashboardState extends Equatable {
         lastName,
         email,
         phone,
+        editMode,
       ];
 
   StaffDashboardState copyWith({
     bool? coursesLoading,
     bool? assessmentsLoading,
+    bool? profileLoading,
     String? message,
     ApiResponseStatus? apiResponseStatus,
     int? selectedIndex,
@@ -58,10 +65,12 @@ class StaffDashboardState extends Equatable {
     String? lastName,
     String? email,
     String? phone,
+    bool? editMode,
   }) {
     return StaffDashboardState(
       coursesLoading: coursesLoading ?? this.coursesLoading,
       assessmentsLoading: assessmentsLoading ?? this.assessmentsLoading,
+      profileLoading: profileLoading ?? this.profileLoading,
       message: message ?? this.message,
       apiResponseStatus: apiResponseStatus ?? this.apiResponseStatus,
       selectedIndex: selectedIndex ?? this.selectedIndex,
@@ -72,6 +81,7 @@ class StaffDashboardState extends Equatable {
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,
       phone: phone ?? this.phone,
+      editMode: editMode ?? this.editMode,
     );
   }
 }

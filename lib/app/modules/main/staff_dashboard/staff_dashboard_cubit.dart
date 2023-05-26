@@ -1,11 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../configs/configs.dart';
 import '../../../../resources/resources.dart';
@@ -20,6 +23,7 @@ class StaffDashboardCubit extends Cubit<StaffDashboardState> {
     scaffoldKey = GlobalKey<ScaffoldState>();
     _getStorage = GetStorage();
     _dio = Dio();
+    staffProfileForm = StaffForms.staffProfileForm;
 
     _getUserDetails();
     _getCourses();
@@ -33,6 +37,7 @@ class StaffDashboardCubit extends Cubit<StaffDashboardState> {
   late final GlobalKey<ScaffoldState> scaffoldKey;
   late GetStorage _getStorage;
   late Dio _dio;
+  late FormGroup staffProfileForm;
 
   void onItemSelected(int index) {
     emit(
@@ -48,10 +53,20 @@ class StaffDashboardCubit extends Cubit<StaffDashboardState> {
   }
 
   void _getUserDetails() {
+    var userId = _getStorage.read('user_id');
     var firstName = _getStorage.read('first_name');
     var lastName = _getStorage.read('last_name');
     var email = _getStorage.read('email');
     var phone = _getStorage.read('contact_no');
+    staffProfileForm.patchValue(
+      {
+        StaffForms.userIdControl: userId,
+        StaffForms.firstNameControl: firstName,
+        StaffForms.lastNameControl: lastName,
+        StaffForms.emailControl: email,
+        StaffForms.contactControl: phone,
+      },
+    );
 
     emit(
       state.copyWith(
@@ -59,6 +74,23 @@ class StaffDashboardCubit extends Cubit<StaffDashboardState> {
         lastName: lastName,
         email: email,
         phone: phone,
+      ),
+    );
+
+    var details = _getStorage.read('user_details');
+    if (details != null && details.toString().isNotEmpty) {
+      staffProfileForm.patchValue(
+        {
+          StaffForms.detailsControl: details,
+        },
+      );
+    }
+  }
+
+  void editMode() {
+    emit(
+      state.copyWith(
+        editMode: !state.editMode,
       ),
     );
   }
@@ -181,6 +213,63 @@ class StaffDashboardCubit extends Cubit<StaffDashboardState> {
           assessmentsLoading: false,
         ),
       );
+    }
+  }
+
+  Future<void> updateProfile() async {
+    if (staffProfileForm.valid) {
+      try {
+        emit(
+          state.copyWith(
+            profileLoading: true,
+          ),
+        );
+
+        var response = await _dio.post(
+          '${HTTPConfig.baseURL}updateProfile',
+          data: staffProfileForm.value,
+        );
+        if (response.statusCode == 200) {
+          Helpers.successSnackBar(
+            context: context,
+            title: 'Profile updated successfully',
+          );
+          await _getStorage.write(
+            'first_name',
+            response.data['first_name'],
+          );
+          await _getStorage.write(
+            'last_name',
+            response.data['last_name'],
+          );
+          await _getStorage.write(
+            'contact_no',
+            response.data['contact_no'],
+          );
+          await _getStorage.write(
+            'user_details',
+            response.data['details'],
+          );
+        } else {
+          Helpers.errorSnackBar(
+            context: context,
+            title: response.data?['message'] ?? Res.string.somethingWentWrong,
+          );
+        }
+      } catch (e) {
+        Helpers.errorSnackBar(
+          context: context,
+          title: Res.string.somethingWentWrong,
+        );
+      } finally {
+        emit(
+          state.copyWith(
+            profileLoading: false,
+          ),
+        );
+      }
+    } else {
+      staffProfileForm.markAllAsTouched();
     }
   }
 
